@@ -1,0 +1,837 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>郑州升达经贸管理学院 - 2026新生指南</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            light: '#e6f7f5',
+                            DEFAULT: '#14b8a6',
+                            dark: '#0f766e',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"PingFang SC"', '"Microsoft YaHei"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .page-section { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .page-section.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* 全局防盗水印 */
+        .global-watermark {
+            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+            pointer-events: none; z-index: 9999;
+            background-image: url("data:image/svg+xml,%3Csvg width='200' height='200' xmlns='http://www.w3.org/2000/svg'%3E%3Cg transform='rotate(-30, 100, 100)'%3E%3Ctext x='50%25' y='40%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='16' font-weight='bold' fill='rgba(156, 163, 175, 0.15)'%3E子恒学长微信%3C/text%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='16' font-weight='bold' fill='rgba(156, 163, 175, 0.15)'%3EZ18137374810%3C/text%3E%3C/g%3E%3C/svg%3E");
+            background-repeat: repeat;
+        }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        /* 全屏地图滚动条美化 */
+        #map-scroll-container::-webkit-scrollbar { width: 8px; height: 8px; }
+        #map-scroll-container::-webkit-scrollbar-track { background: transparent; }
+        #map-scroll-container::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.3); border-radius: 10px; }
+        #map-scroll-container::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.5); }
+        
+        /* 长文排版优化 */
+        .guide-content p { margin-bottom: 0.75rem; color: #475569; line-height: 1.6; font-size: 0.95rem;}
+        .guide-content strong { color: #1e293b; }
+        .guide-content ul { list-style-type: disc; padding-left: 1.5rem; margin-bottom: 1rem; color: #475569; }
+        .guide-content li { margin-bottom: 0.5rem; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col relative">
+
+    <div class="global-watermark"></div>
+
+    <!-- 顶部导航栏 -->
+    <header class="fixed top-0 left-0 right-0 bg-white/90 backdrop-blur-md shadow-sm z-40">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <div class="w-10 h-10 bg-brand text-white rounded-xl flex items-center justify-center text-xl font-bold shadow-md mr-3 cursor-pointer" onclick="switchPage('home')">
+                        <i class="fa-solid fa-graduation-cap"></i>
+                    </div>
+                    <div class="flex flex-col justify-center">
+                        <p class="text-[11px] text-slate-500 font-medium leading-tight">学长微信：</p>
+                        <div class="flex items-center mt-0.5">
+                            <span class="text-base font-black text-slate-900 tracking-wide" id="header-wechat-id">Z18137374810</span>
+                            <button onclick="copyWechatFromHeader()" class="ml-2 bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs py-1 px-2 rounded flex items-center transition-colors active:scale-95">
+                                <i class="fa-regular fa-copy mr-1"></i>复制
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <nav class="hidden md:flex space-x-8">
+                    <button onclick="switchPage('home')" class="nav-btn active text-brand font-semibold hover:text-brand transition-colors relative" data-target="home">指南首页</button>
+                    <button onclick="switchPage('process')" class="nav-btn text-slate-500 font-medium hover:text-brand transition-colors relative" data-target="process">报到流程</button>
+                    <button onclick="switchPage('map')" class="nav-btn text-slate-500 font-medium hover:text-brand transition-colors relative" data-target="map">校园地图</button>
+                    <button onclick="switchPage('dorm')" class="nav-btn text-slate-500 font-medium hover:text-brand transition-colors relative" data-target="dorm">宿舍入住</button>
+                    <button onclick="switchPage('food')" class="nav-btn text-slate-500 font-medium hover:text-brand transition-colors relative" data-target="food">食堂美食</button>
+                </nav>
+
+                <div class="md:hidden flex items-center relative z-50">
+                    <button id="mobile-menu-btn" class="text-slate-500 hover:text-brand focus:outline-none p-2">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 移动端下拉菜单 -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white border-t border-slate-100 shadow-lg absolute w-full z-40">
+            <div class="px-4 pt-2 pb-4 space-y-1">
+                <button onclick="switchPage('home'); closeMobileMenu()" class="block w-full text-left px-4 py-3 text-brand bg-brand-light nav-btn-mobile" data-target="home">指南首页</button>
+                <button onclick="switchPage('explore'); closeMobileMenu()" class="block w-full text-left px-4 py-3 text-slate-600 nav-btn-mobile" data-target="explore">🚀 完整指南(新生必看)</button>
+                <button onclick="switchPage('process'); closeMobileMenu()" class="block w-full text-left px-4 py-3 text-slate-600 nav-btn-mobile" data-target="process">报到流程</button>
+                <button onclick="switchPage('map'); closeMobileMenu()" class="block w-full text-left px-4 py-3 text-slate-600 nav-btn-mobile" data-target="map">校园地图</button>
+                <button onclick="switchPage('dorm'); closeMobileMenu()" class="block w-full text-left px-4 py-3 text-slate-600 nav-btn-mobile" data-target="dorm">宿舍入住</button>
+                <button onclick="switchPage('food'); closeMobileMenu()" class="block w-full text-left px-4 py-3 text-slate-600 nav-btn-mobile" data-target="food">食堂美食</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容容器 -->
+    <main class="flex-grow pt-20 pb-12 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto w-full relative z-10">
+        
+        <!-- ================= 页面 1: 指南首页 ================= -->
+        <div id="page-home" class="page-section active">
+            <div class="bg-white rounded-3xl p-8 sm:p-12 shadow-sm border border-slate-100 flex flex-col md:flex-row items-center gap-8 mb-10 overflow-hidden relative">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-brand-light rounded-full mix-blend-multiply blur-3xl opacity-70 -translate-y-1/2 translate-x-1/3"></div>
+                <div class="flex-1 relative z-20 text-center md:text-left">
+                    <span class="inline-block py-1 px-3 rounded-full bg-brand-light text-brand text-sm font-semibold mb-4">2026 迎新季</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold text-slate-900 mb-4 leading-tight">欢迎来到 <br><span class="text-brand">升达经贸管理学院</span></h2>
+                    <p class="text-slate-600 text-lg mb-6 max-w-xl mx-auto md:mx-0">
+                        在这里，我们将为你展示最全面的校园攻略。无论是报考择校、报到住宿，还是学业规划，这份完整的指南将陪伴你开启大学旅程。
+                    </p>
+                    <button onclick="switchPage('explore')" class="bg-brand hover:bg-brand-dark text-white font-bold py-3 px-8 rounded-full shadow-lg shadow-brand/30 transition-all transform hover:-translate-y-1 relative z-20">
+                        <i class="fa-solid fa-rocket mr-2"></i> 开始探索完整指南
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-20">
+                <div onclick="switchPage('process')" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-md cursor-pointer text-center">
+                    <div class="w-14 h-14 bg-brand-light text-brand rounded-full flex items-center justify-center text-2xl mx-auto mb-4"><i class="fa-solid fa-list-check"></i></div>
+                    <h3 class="font-bold text-lg mb-2">一站式报到</h3><p class="text-slate-500 text-sm">轻松掌握新生流程</p>
+                </div>
+                <div onclick="switchPage('map')" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-md cursor-pointer text-center">
+                    <div class="w-14 h-14 bg-blue-50 text-blue-500 rounded-full flex items-center justify-center text-2xl mx-auto mb-4"><i class="fa-solid fa-map-location-dot"></i></div>
+                    <h3 class="font-bold text-lg mb-2">校园地图</h3><p class="text-slate-500 text-sm">设施全知晓</p>
+                </div>
+                <div onclick="switchPage('dorm')" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-md cursor-pointer text-center">
+                    <div class="w-14 h-14 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center text-2xl mx-auto mb-4"><i class="fa-solid fa-bed"></i></div>
+                    <h3 class="font-bold text-lg mb-2">温馨小家</h3><p class="text-slate-500 text-sm">提前了解宿舍环境</p>
+                </div>
+                <div onclick="switchPage('food')" class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 hover:shadow-md cursor-pointer text-center">
+                    <div class="w-14 h-14 bg-rose-50 text-rose-500 rounded-full flex items-center justify-center text-2xl mx-auto mb-4"><i class="fa-solid fa-utensils"></i></div>
+                    <h3 class="font-bold text-lg mb-2">食堂美食</h3><p class="text-slate-500 text-sm">解锁招牌美食</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= 独立子页面: 完整指南页 ================= -->
+        <div id="page-explore" class="page-section">
+            <div class="mb-6 border-b border-slate-200 pb-6">
+                <h2 class="text-3xl font-extrabold text-slate-900 mb-2">郑州升达经贸管理学院2026新生完整指南</h2>
+                <p class="text-slate-500">分为<span class="text-brand font-bold">篇章 I・择校参考</span>、<span class="text-brand font-bold">篇章 II・入学指南</span>两大板块，11 个章节全覆盖报考、报到、在校全流程。</p>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row gap-8 relative items-start">
+                <!-- 左侧长文内容 -->
+                <div class="flex-1 bg-white rounded-2xl p-6 sm:p-10 shadow-sm border border-slate-100 guide-content">
+                    <h2 id="part-1" class="text-2xl font-black text-brand-dark border-b-2 border-brand-light pb-2 mb-6 pt-2">篇章 I・择校参考（3 大模块）</h2>
+                    
+                    <h3 id="sec-01" class="text-xl font-bold text-slate-800 mb-3 mt-8 flex items-center">
+                        <span class="bg-brand text-white w-8 h-8 rounded-lg flex items-center justify-center mr-3 text-sm">01</span> 学校概览
+                    </h3>
+                    <p><strong>办学属性：</strong>非营利性全日制民办普通本科高校，1993 年由台湾王广亚博士创办，前身为郑州大学升达经贸管理学院，2011 年转设独立。河南省硕士学位授予立项建设 A + 类单位，省内民办本科第一梯队。主管单位河南省教育厅，国标代码 14333，河南招生代码 6195。</p>
+                    <p><strong>校区布局：</strong><br>
+                        • 龙湖主校区（本科、专升本全部就读）：郑州市新郑市龙湖镇文昌路 1 号<br>
+                        • 登封校区（专科批次就读）：登封市少林大道东段 211 号；两校区总占地 2203 亩
+                    </p>
+                    <p><strong>2025 录取分数线 & 位次：</strong><br>
+                        • 历史类：最低录取分 506 分，位次 57662<br>
+                        • 物理不限组：最低 452 分，位次 302695；物理化学组 461 分，位次 285619<br>
+                        • 报考参考：物理 32 万位次以内、历史 6 万位次以内录取概率较高
+                    </p>
+                    <p><strong>校园管理特点：</strong>承袭创办人理念，实行「三严管理」（严管、严教、严考）+ 养成教育。大一统一早读、升旗仪式、内务检查、劳动教育，作息门禁严格，学风在河南民办院校里口碑突出。</p>
+                    <div class="bg-slate-50 p-4 rounded-xl mt-4 mb-2 border border-slate-100">
+                        <p class="mb-2"><span class="text-green-600 font-bold"><i class="fa-solid fa-circle-check mr-1"></i>优势：</span>商科底蕴极强、师资稳定、奖助体系完善、升本升学率高、产教融合学院多（圆通、腾讯云、京东云产业学院）、地铁直达市区。</p>
+                        <p class="mb-0"><span class="text-red-500 font-bold"><i class="fa-solid fa-circle-xmark mr-1"></i>不足：</span>管理严格自由度偏低、部分老旧宿舍楼无独立卫浴、大一纪律约束较多，大一需要扫地（两三天排一次），早读（两周排一次，一次上一周）。</p>
+                    </div>
+
+                    <h3 id="sec-02" class="text-xl font-bold text-slate-800 mb-3 mt-10 flex items-center">
+                        <span class="bg-brand text-white w-8 h-8 rounded-lg flex items-center justify-center mr-3 text-sm">02</span> 专业选择
+                    </h3>
+                    <p><strong>录取规则：</strong>志愿优先，第一专业志愿优先级最高，勾选服从调剂大幅降低滑档风险；入学后仅有大一下学期一次转专业窗口期，要求第一学期无挂科、违纪。热门财会、计算机专业名额紧张，艺术类不可跨普通文理转专业。</p>
+                    <p><strong>王牌 & 热门专业分类：</strong><br>
+                        • 省级一流本科专业：会计学、金融学、国际经济与贸易、财务管理、市场营销（学校传统王牌）<br>
+                        • 省级重点学科：会计学、金融学、计算机、工商管理、软件工程等<br>
+                        • 工科热门：电气自动化、机械设计制造及其自动化、自动化、人工智能、网络与新媒体<br>
+                        • 文科优选：法学、英语、汉语言文学；艺术类：环境设计、音乐表演
+                    </p>
+                    <p><strong>升学方向：</strong><br>
+                        • 统招专升本：校内配套辅导，本校专升本录取名额多<br>
+                        • 本科直接考研：学校为硕士立项建设单位，校内考研自习室充足，往届上岸公办院校人数多<br>
+                        • 辅修学位：7 个专业开设辅修学士学位，可双修第二专业
+                    </p>
+
+                    <h3 id="sec-03" class="text-xl font-bold text-slate-800 mb-3 mt-10 flex items-center">
+                        <span class="bg-brand text-white w-8 h-8 rounded-lg flex items-center justify-center mr-3 text-sm">03</span> 城市生活（新郑龙湖南大学城）
+                    </h3>
+                    <p><strong>出行交通：</strong>龙湖校区北门步行 500 米直达地铁 2 号线城郊线小乔站，35-40 分钟直达郑州市区紫荆山；开学期间郑州站、郑州东站设有学校迎新大巴，凭录取通知书免费乘车到校；校内共享电动车、共享单车全覆盖，宿舍楼旁配备充电桩。</p>
+                    <p><strong>生活费参考：</strong>基础伙食费 800-1100 元/月；综合日常开销 1200-1600 元足够，2000 元以上消费宽裕；主要额外支出为空调电费，冬季暖气免费，仅夏季公摊电费需宿舍平摊。</p>
+                    <p><strong>周边配套：</strong>北门、南门均有商业街、超市、药店、餐饮、快递驿站，外卖可直达宿舍楼下；临近华南城，购物、兼职资源丰富；新郑四季分明，夏季闷热干燥，冬季有集中供暖，南方新生备好保湿用品即可。</p>
+
+                    <h2 id="part-2" class="text-2xl font-black text-brand-dark border-b-2 border-brand-light pb-2 mb-6 mt-14 pt-2">篇章 II・入学指南（8 大模块）</h2>
+                    
+                    <h3 id="sec-04" class="text-xl font-bold text-slate-800 mb-3 mt-8 flex items-center">
+                        <span class="bg-brand text-white w-8 h-8 rounded-lg flex items-center justify-center mr-3 text-sm">04</span> 开学报到
+                    </h3>
+                    <p><strong>必备证件清单：</strong>录取通知书、身份证+复印件、高考准考证、纸质档案袋、团员档案+团组织转接证明、1 寸/2 寸红蓝白底证件照（纸质+电子版）；助学贷款回执单、贫困认定材料（申请助学金用）、兵役登记证（男生）。</p>
+                    <p><strong>2026 官方学费标准（学年）：</strong><br>
+                        文史/体育类：15000 元；理工类：16000 元；艺术类：18000 元<br>
+                        本科中外合作：34000 元；专科中外合作：20000 元；住宿费统一 1500 元/年
+                    </p>
+                    <p><strong>报到流程：</strong><br>
+                        ①提前登录学校企业微信完成数字迎新线上填报、学费缴纳、宿舍床位预选（早缴费优先选靠窗床位）；<br>
+                        ②到校后迎新点核验身份、领取校园卡、宿舍钥匙；<br>
+                        ③直接入住宿舍，剩余手续线上办结即可，无需长时间排队。
+                    </p>
+                    <p><strong>行李邮寄地址：</strong>河南省郑州市新郑市龙湖镇文昌路 1 号郑州升达经贸管理学院，标注姓名+学院+手机号，大件行李提前邮寄，轻装到校。</p>
+
+                    <h3 id="sec-05" class="text-xl font-bold text-slate-800 mb-3 mt-10 flex items-center">
+                        <span class="bg-brand text-white w-8 h-8 rounded-lg flex items-center justify-center mr-3 text-sm">05</span> 宿舍入住
+                    </h3>
+                    <p><strong>楼栋户型布局：</strong></p>
+                    <div class="overflow-x-auto my-4 rounded-xl border border-slate-200">
+                        <table class="min-w-full text-sm text-left">
+                            <thead class="bg-brand-light text-brand-dark font-bold">
+                                <tr>
+                                    <th class="px-4 py-3 border-b border-slate-200">楼栋</th>
+                                    <th class="px-4 py-3 border-b border-slate-200">房间类型</th>
+                                    <th class="px-4 py-3 border-b border-slate-200">床铺形式</th>
+                                    <th class="px-4 py-3 border-b border-slate-200">其他设施</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 bg-white">
+                                <tr>
+                                    <td class="px-4 py-3">1-6号楼，14号楼</td>
+                                    <td class="px-4 py-3">4人间</td>
+                                    <td class="px-4 py-3 text-brand font-medium">上床下桌</td>
+                                    <td class="px-4 py-3">都有暖气空调，公共阳台</td>
+                                </tr>
+                                <tr class="bg-slate-50">
+                                    <td class="px-4 py-3">7-13，15-43号楼</td>
+                                    <td class="px-4 py-3">6人间</td>
+                                    <td class="px-4 py-3 text-brand font-medium">上床下桌</td>
+                                    <td class="px-4 py-3">基本都有暖气空调，部分有独立阳台</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p class="text-xs text-slate-500 mb-4">* 备注：除建工校区33, 34, 40, 41, 42没暖气（但冬天有独立阳台）。只有女生宿舍楼37, 43号楼有独立卫浴。</p>
+                    
+                    <p><strong>水电收费规则：</strong>水费自来水免费，洗澡热水刷校园一卡通，单次洗澡约 3-4 元；电费每月赠送 30 度基础电量，超出部分舍友 AA 平摊；冬季暖气片供暖免费，仅夏季空调产生额外电费；宿舍限电功率 800W，禁用电锅、电热毯等大功率违禁电器。</p>
+                    <p><strong>门禁 & 查寝作息：</strong><br>
+                        • 周日—周四：女生 22:00 门禁锁楼，男生 22:30；每晚宿管定点查寝，禁止外宿，外出需线上请假。<br>
+                        • 周五、周六 & 节假日：女生 23:30 门禁，男生 23:00，可正常申请留校外宿。<br>
+                        • 熄灯：全天不断电熄灯，晚上走廊灯亮一晚上。<br>
+                        • 配套：每层公共洗衣机、共享吹风机、直饮水机，楼下快递柜、自动售货机齐全。
+                    </p>
+
+                    <h3 id="sec-06" class="text-xl font-bold text-slate-800 mb-3 mt-10 flex items-center">
+                        <span class="bg-brand text-white w-8 h-8 rounded-lg flex items-center justify-center mr-3 text-sm">06</span> 军训攻略
+                    </h3>
+                    <p><strong>物资准备：</strong>学校统一发放全套迷彩作训服、帽子、腰带；自备高倍防晒霜、加厚硅胶鞋垫、大容量水杯、驱蚊喷雾、润喉糖；禁止私自穿戴冰袖、遮阳帽外的额外配饰。</p>
+                    <p><strong>训练内容：</strong>站军姿、队列队形、齐步正步跑步、内务整理教学、晚间国防教育讲座；强度适中，早晚训练避开正午高温时段（时长约 21 天）。</p>
+                    <p><strong>免训 / 缓训规则：</strong>大病免训需二甲及以上医院诊断证明，提交学院审批；轻微伤病可编入后勤方队，不用高强度训练但全程到场；军训成绩计入综测学分，不可无故缺席。</p>
+
+                    <h3 id="sec-07" class="text-xl font-bold text-slate-800 mb-3 mt-10 flex items-center">
+                        <span class="bg-brand text-white w-8 h-8 rounded-lg flex items-center justify-center mr-3 text-sm">07</span> 食堂美食
+                    </h3>
+                    <p><strong>食堂规模：</strong>校内总计 14 个标准化餐厅，分布在宿舍区、教学区，全覆盖清真窗口、南北风味小吃、快餐、面食、麻辣烫、奶茶饮品店。</p>
+                    <p><strong>人气食堂分区：</strong><br>
+                        • 一餐厅：性价比最高，家常菜、大锅菜价格低廉，早餐种类丰富；<br>
+                        • 龙湖食府：网红档口多，炸鸡、米线、麻辣香锅、水果捞齐全；<br>
+                        • 各宿舍楼下小餐厅：出餐快，适合早八课间就餐。<br>
+                        • 消费方式：一卡通刷卡、微信支付宝扫码均可，校内蜜雪冰城、瑞幸、塔斯汀、幸运咖等连锁品牌全覆盖，日均餐费 20 元左右即可吃饱吃好。
+                    </p>
+
+                    <h3 id="sec-08" class="text-xl font-bold text-slate-800 mb-3 mt-10 flex items-center">
+                        <span class="bg-brand text-white w-8 h-8 rounded-lg flex items-center justify-center mr-3 text-sm">08</span> 学业规划
+                    </h3>
+                    <p><strong>成绩与综测：</strong>平时分占总成绩 30%-40%，严考制度，挂科必补考，不过重修；综测成绩关联奖助学金、评优、入党，班委、竞赛、志愿活动可加分。</p>
+                    <p><strong>课堂模式：</strong>理论课 + 校内实训中心 + 校外产业学院结合。建有 2 个省级实验教学示范中心；大一固定早读培养习惯。</p>
+                    <p><strong>必考/推荐清单：</strong>计算机一级/二级、普通话；财会类提前备考初级会计，法学准备法考入门，工科报考 CAD、电工证等。</p>
+                    <p><strong>升学：</strong>专科在校生可大三参加统招专升本升入本校。考研有专门自习楼层和辅导。</p>
+
+                    <h3 id="sec-09" class="text-xl font-bold text-slate-800 mb-3 mt-10 flex items-center">
+                        <span class="bg-brand text-white w-8 h-8 rounded-lg flex items-center justify-center mr-3 text-sm">09</span> 社团社交
+                    </h3>
+                    <p><strong>学生组织层级：</strong><br>
+                        • 校级学生会/团委：平台大、活动多、综测加分高，事务繁杂；<br>
+                        • 院级学生会/班委：对接辅导员直接，评优、通知优先，性价比最高。
+                    </p>
+                    <p><strong>优质社团/社交：</strong>青年志愿者协会、辩论社、艺术团等。建议新生只选择 1-2 个深耕。大一班委竞选优先推荐，容易获辅导员关注；严格遵守校规，升达处分记录直接入档撤销繁琐。</p>
+
+                    <h3 id="sec-10" class="text-xl font-bold text-slate-800 mb-3 mt-10 flex items-center">
+                        <span class="bg-brand text-white w-8 h-8 rounded-lg flex items-center justify-center mr-3 text-sm">10</span> 运动与就医
+                    </h3>
+                    <p><strong>体测要求：</strong>大一每学期一次，大二到大四每年一次。800/1000 米、立定跳远、肺活量等为核心，不合格无法正常毕业。校内操场、健身房免费开放。</p>
+                    <p><strong>校医院 & 医保：</strong>校医院就诊报销比例最高；外出校外就医需提前在辅导员处开转诊单（急诊除外），寒暑假异地医保线上提前备案可报销。新生入学统一缴纳大学生医保。</p>
+
+                    <h3 id="sec-11" class="text-xl font-bold text-slate-800 mb-3 mt-10 flex items-center">
+                        <span class="bg-brand text-white w-8 h-8 rounded-lg flex items-center justify-center mr-3 text-sm">11</span> 入学 Checklist
+                    </h3>
+                    <ul class="bg-brand-light/30 p-5 rounded-xl border border-brand-light">
+                        <li><strong>报到前线上：</strong>激活企业微信完成人脸核验；线上缴费选床位；生源地贷款上传回执；团关系转接与兵役登记。</li>
+                        <li><strong>行李必备：</strong>证件材料；四件套、床垫、床帘、小锁、排插；感冒/肠胃药品；电脑、小风扇等。</li>
+                        <li><strong>到校一周必办：</strong>空腹统一体检、激活校园卡、办理校园宽带、班委竞选、熟悉各楼栋位置、助学金备案。</li>
+                        <li><strong>交通补充：</strong>地铁2号线城郊线「小乔站」出站500米；高铁有迎新大巴；自驾导航龙湖校区有临时停车区。</li>
+                    </ul>
+                    
+                    <p class="text-sm text-slate-400 mt-6 border-t border-slate-100 pt-4">
+                        * 补充说明：本指南为在校生真实经验结合官方文件整合，最终以官网通知为准。仅龙湖校区为本科就读地，登封校区只招专科。校训「勤俭朴实，自力更生」，学风浓厚。
+                    </p>
+                </div>
+
+                <!-- 右侧悬浮目录 -->
+                <div class="w-full lg:w-72 shrink-0 hidden lg:block">
+                    <div class="sticky top-24 bg-white rounded-2xl p-6 shadow-sm border border-slate-100 relative z-20">
+                        <h3 class="text-lg font-bold text-slate-800 mb-4 border-b border-slate-100 pb-2"><i class="fa-solid fa-list-ul mr-2"></i>目录导航</h3>
+                        <ul class="space-y-3 text-[14px] text-slate-600 font-medium" id="toc-list">
+                            <li><a href="javascript:void(0)" onclick="scrollToSec('part-1')" class="block hover:text-brand text-brand-dark font-bold">篇章 I・择校参考</a></li>
+                            <li><a href="javascript:void(0)" onclick="scrollToSec('sec-01')" class="block pl-4 hover:text-brand transition-colors">01 学校概览</a></li>
+                            <li><a href="javascript:void(0)" onclick="scrollToSec('sec-02')" class="block pl-4 hover:text-brand transition-colors">02 专业选择</a></li>
+                            <li><a href="javascript:void(0)" onclick="scrollToSec('sec-03')" class="block pl-4 hover:text-brand transition-colors">03 城市生活</a></li>
+                            <li class="pt-2"><a href="javascript:void(0)" onclick="scrollToSec('part-2')" class="block hover:text-brand text-brand-dark font-bold">篇章 II・入学指南</a></li>
+                            <li><a href="javascript:void(0)" onclick="scrollToSec('sec-04')" class="block pl-4 hover:text-brand transition-colors">04 开学报到</a></li>
+                            <li><a href="javascript:void(0)" onclick="scrollToSec('sec-05')" class="block pl-4 hover:text-brand transition-colors">05 宿舍入住</a></li>
+                            <li><a href="javascript:void(0)" onclick="scrollToSec('sec-06')" class="block pl-4 hover:text-brand transition-colors">06 军训攻略</a></li>
+                            <li><a href="javascript:void(0)" onclick="scrollToSec('sec-07')" class="block pl-4 hover:text-brand transition-colors">07 食堂美食</a></li>
+                            <li><a href="javascript:void(0)" onclick="scrollToSec('sec-08')" class="block pl-4 hover:text-brand transition-colors">08 学业规划</a></li>
+                            <li><a href="javascript:void(0)" onclick="scrollToSec('sec-09')" class="block pl-4 hover:text-brand transition-colors">09 社团社交</a></li>
+                            <li><a href="javascript:void(0)" onclick="scrollToSec('sec-10')" class="block pl-4 hover:text-brand transition-colors">10 运动与就医</a></li>
+                            <li><a href="javascript:void(0)" onclick="scrollToSec('sec-11')" class="block pl-4 hover:text-brand transition-colors">11 入学 Checklist</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= 页面 2: 报到流程 ================= -->
+        <div id="page-process" class="page-section">
+            <h2 class="text-2xl font-bold text-slate-800 mb-8 flex items-center">
+                <i class="fa-solid fa-list-check text-brand mr-3"></i> 报到流程全攻略
+            </h2>
+            <div class="max-w-4xl mx-auto">
+                <div class="relative border-l-2 border-brand-light ml-4 md:ml-6 mb-12 space-y-8 mt-4">
+                    <div class="relative pl-8 md:pl-10">
+                        <div class="absolute -left-[17px] top-1 w-8 h-8 bg-brand text-white rounded-full flex items-center justify-center font-bold shadow-md">1</div>
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                            <h3 class="text-lg font-bold text-slate-800 mb-2">线上准备 <span class="text-sm font-normal text-slate-400 ml-2">(到校前)</span></h3>
+                            <p class="text-slate-600 leading-relaxed mb-3">提前登录学校企业微信完成数字迎新线上填报、学费缴纳、宿舍床位预选。</p>
+                            <div class="inline-flex items-center bg-orange-50 text-orange-600 text-sm font-medium px-3 py-1.5 rounded-lg border border-orange-100">
+                                <i class="fa-solid fa-lightbulb mr-2"></i> 早缴费可优先挑选靠窗床位！
+                            </div>
+                        </div>
+                    </div>
+                    <div class="relative pl-8 md:pl-10">
+                        <div class="absolute -left-[17px] top-1 w-8 h-8 bg-brand text-white rounded-full flex items-center justify-center font-bold shadow-md">2</div>
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                            <h3 class="text-lg font-bold text-slate-800 mb-2">线下核验 <span class="text-sm font-normal text-slate-400 ml-2">(到校后)</span></h3>
+                            <p class="text-slate-600 leading-relaxed">到达学校后，前往迎新点核验新生身份，并领取校园一卡通和宿舍钥匙。</p>
+                        </div>
+                    </div>
+                    <div class="relative pl-8 md:pl-10">
+                        <div class="absolute -left-[17px] top-1 w-8 h-8 bg-brand text-white rounded-full flex items-center justify-center font-bold shadow-md">3</div>
+                        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                            <h3 class="text-lg font-bold text-slate-800 mb-2">轻松入住</h3>
+                            <p class="text-slate-600 leading-relaxed">直接前往宿舍楼入住宿舍。剩余的其他手续均可在线上办结，无需在现场长时间排队等待。</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-blue-50/50 rounded-2xl p-6 md:p-8 border border-blue-100 flex flex-col md:flex-row items-start gap-5 shadow-sm relative z-20">
+                    <div class="w-14 h-14 bg-blue-100 text-blue-500 rounded-full flex items-center justify-center text-2xl shrink-0 shadow-inner"><i class="fa-solid fa-truck-fast"></i></div>
+                    <div class="flex-1">
+                        <h3 class="text-lg font-bold text-slate-800 mb-2">行李邮寄指南</h3>
+                        <p class="text-slate-600 mb-4 text-sm">强烈建议将大件行李提前邮寄，开学当天即可轻装到校，减少舟车劳顿。</p>
+                        <div class="bg-white p-4 rounded-xl border border-slate-100 text-sm text-slate-700 font-medium space-y-3">
+                            <div class="flex items-start">
+                                <i class="fa-solid fa-location-dot text-blue-400 mt-1 mr-3 w-4 text-center"></i>
+                                <span><strong>邮寄地址：</strong><br class="md:hidden">河南省郑州市新郑市龙湖镇文昌路 1 号郑州升达经贸管理学院</span>
+                            </div>
+                            <div class="flex items-start">
+                                <i class="fa-solid fa-pen-to-square text-blue-400 mt-1 mr-3 w-4 text-center"></i>
+                                <span><strong>快递备注：</strong>务必标注 <span class="text-brand font-bold">姓名 + 学院 + 手机号</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= 页面 3: 校园地图 (专门优化的可放大区域) ================= -->
+        <div id="page-map" class="page-section">
+            <h2 class="text-2xl font-bold text-slate-800 mb-8 flex items-center">
+                <i class="fa-solid fa-map-location-dot text-brand mr-3"></i> 探索升达校园
+            </h2>
+            
+            <div class="bg-white rounded-3xl p-6 md:p-8 shadow-sm border border-slate-100 relative z-20">
+                <!-- 地图头部说明与下载 -->
+                <div class="mb-6 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <div>
+                        <h3 class="text-xl font-bold text-slate-800 mb-1">2026 最新校园全景导览图</h3>
+                        <p class="text-slate-500 text-sm">点击下方图片即可全屏无损放大，拖拽查看楼栋精确细节。</p>
+                    </div>
+                    <!-- 使用 ./map.jpg 相对路径支持 Github 直连下载 -->
+                    <a href="./pbulic/map.jpg" download="升达校园地图.jpg" class="bg-brand-light text-brand hover:bg-brand hover:text-white transition-colors px-4 py-2 rounded-xl text-sm font-bold flex items-center shadow-sm shrink-0">
+                        <i class="fa-solid fa-download mr-2"></i> 保存高清原图
+                    </a>
+                </div>
+
+                <!-- 缩略图容器 (点击打开全屏查看器) -->
+                <div onclick="openMapViewer()" class="relative rounded-2xl border-2 border-slate-100 shadow-inner bg-slate-50 overflow-hidden group cursor-pointer aspect-[4/3] md:aspect-[21/9]">
+                    <!-- 放大提示悬浮层 -->
+                    <div class="absolute inset-0 bg-black/5 group-hover:bg-black/30 transition-colors duration-300 z-10 flex items-center justify-center">
+                        <div class="bg-white/95 text-brand px-6 py-3 rounded-full font-bold shadow-xl transform scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300 flex items-center">
+                            <i class="fa-solid fa-magnifying-glass-plus mr-2 text-lg"></i> 点击全屏放大查看
+                        </div>
+                    </div>
+                    <!-- 这里引用的也是同一个相对路径的图片。用 object-cover 保持页面整洁 -->
+                    <img src="./map.jpg" 
+                         onerror="this.src='https://dummyimage.com/1300x2300/e6f7f5/0f766e.png&text=%E8%AF%B7%E5%B0%86%E4%BD%A0%E7%9A%84%E5%9B%BE%E7%89%87%E5%91%BD%E5%90%8D%E4%B8%BAmap.jpg%E5%B9%B6%E6%94%BE%E5%9C%A8%E5%90%8C%E7%9B%AE%E5%BD%95'" 
+                         alt="校园地图缩略图" 
+                         class="w-full h-full object-cover object-top blur-[1px] group-hover:blur-0 transition-all duration-300">
+                </div>
+
+                <!-- 核心地标快捷说明卡片 -->
+                <div class="mt-8 grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center hover:border-brand/40 transition-colors hover:shadow-sm">
+                        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm mx-auto mb-2 text-brand"><i class="fa-solid fa-book-open"></i></div>
+                        <h4 class="font-bold text-slate-800 text-[15px]">图书馆</h4>
+                        <p class="text-xs text-slate-500 mt-0.5">学习考研核心区</p>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center hover:border-blue-400/40 transition-colors hover:shadow-sm">
+                        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm mx-auto mb-2 text-blue-500"><i class="fa-solid fa-building"></i></div>
+                        <h4 class="font-bold text-slate-800 text-[15px]">建新/明德楼</h4>
+                        <p class="text-xs text-slate-500 mt-0.5">主要上课教学区</p>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center hover:border-orange-400/40 transition-colors hover:shadow-sm">
+                        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm mx-auto mb-2 text-orange-500"><i class="fa-solid fa-basketball"></i></div>
+                        <h4 class="font-bold text-slate-800 text-[15px]">田径场馆</h4>
+                        <p class="text-xs text-slate-500 mt-0.5">南北区室外运动场</p>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-center hover:border-green-400/40 transition-colors hover:shadow-sm">
+                        <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm mx-auto mb-2 text-green-500"><i class="fa-solid fa-truck-fast"></i></div>
+                        <h4 class="font-bold text-slate-800 text-[15px]">快递驿站</h4>
+                        <p class="text-xs text-slate-500 mt-0.5">各区宿舍楼下网点</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= 页面 4: 宿舍入住 ================= -->
+        <div id="page-dorm" class="page-section">
+            <h2 class="text-2xl font-bold text-slate-800 mb-8 flex items-center">
+                <i class="fa-solid fa-bed text-brand mr-3"></i> 宿舍入住指南
+            </h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 relative z-20">
+                <div class="bg-white rounded-2xl p-6 md:p-8 shadow-sm border border-slate-100 lg:col-span-2">
+                    <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center"><i class="fa-solid fa-building text-brand mr-2"></i> 楼栋户型布局</h3>
+                    <div class="overflow-x-auto rounded-xl border border-slate-200 mb-5">
+                        <table class="min-w-full text-sm text-left">
+                            <thead class="bg-brand-light text-brand-dark font-bold">
+                                <tr>
+                                    <th class="px-4 py-3 border-b border-slate-200">楼栋</th>
+                                    <th class="px-4 py-3 border-b border-slate-200 whitespace-nowrap">房间类型</th>
+                                    <th class="px-4 py-3 border-b border-slate-200 whitespace-nowrap">床铺形式</th>
+                                    <th class="px-4 py-3 border-b border-slate-200">其他设施</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-slate-100 bg-white">
+                                <tr>
+                                    <td class="px-4 py-3 font-medium text-slate-700">1-6号楼，14号楼</td>
+                                    <td class="px-4 py-3"><span class="bg-blue-50 text-blue-600 px-2.5 py-1 rounded text-xs font-bold">4人间</span></td>
+                                    <td class="px-4 py-3 text-brand font-bold whitespace-nowrap">上床下桌</td>
+                                    <td class="px-4 py-3 text-slate-600">都有暖气空调，公共阳台</td>
+                                </tr>
+                                <tr class="bg-slate-50">
+                                    <td class="px-4 py-3 font-medium text-slate-700">7-13，15-43号楼</td>
+                                    <td class="px-4 py-3"><span class="bg-orange-50 text-orange-600 px-2.5 py-1 rounded text-xs font-bold">6人间</span></td>
+                                    <td class="px-4 py-3 text-brand font-bold whitespace-nowrap">上床下桌</td>
+                                    <td class="px-4 py-3 text-slate-600">基本都有暖气空调，部分有独立阳台</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="bg-amber-50 text-amber-800 p-4 rounded-xl text-sm border border-amber-100 flex items-start">
+                        <i class="fa-solid fa-circle-exclamation mt-0.5 mr-3 text-amber-500"></i>
+                        <div>
+                            <strong>特殊楼栋备注：</strong>
+                            <ul class="mt-1 space-y-1 list-none p-0 text-amber-700">
+                                <li>• 除建工校区 <span class="font-bold">33、34、40、41、42号楼</span> 没暖气（但冬天有独立阳台）。</li>
+                                <li>• 只有女生宿舍楼 <span class="font-bold">37、43号楼</span> 拥有独立卫浴。</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-100 h-full">
+                    <h3 class="text-lg font-bold text-slate-800 mb-6 flex items-center"><i class="fa-solid fa-bolt text-yellow-500 mr-2"></i> 水电收费规则</h3>
+                    <ul class="space-y-6">
+                        <li class="flex items-start">
+                            <div class="w-10 h-10 rounded-full bg-blue-50 text-blue-500 flex items-center justify-center shrink-0 mr-4"><i class="fa-solid fa-droplet text-lg"></i></div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-[15px] mb-1">日常水费</h4>
+                                <p class="text-slate-500 text-sm leading-relaxed">日常自来水 <span class="text-brand font-bold">免费</span> 使用；洗澡热水需刷一卡通，单次约 <span class="font-bold text-slate-700">3-4 元</span>。</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start">
+                            <div class="w-10 h-10 rounded-full bg-yellow-50 text-yellow-500 flex items-center justify-center shrink-0 mr-4"><i class="fa-solid fa-plug text-lg"></i></div>
+                            <div>
+                                <h4 class="font-bold text-slate-800 text-[15px] mb-1">电费 & 供暖</h4>
+                                <p class="text-slate-500 text-sm leading-relaxed">每月赠送 <span class="font-bold text-slate-700">30度</span> 基础电量，超出平摊。冬季暖气片供暖 <span class="text-brand font-bold">免费</span>，仅夏季开空调产生额外电费。</p>
+                                <div class="mt-3 bg-red-50 text-red-600 text-xs px-3 py-2 rounded-lg border border-red-100 flex items-start">
+                                    <i class="fa-solid fa-triangle-exclamation mt-0.5 mr-1.5"></i>
+                                    <span>宿舍限电功率 <strong>800W</strong>，严禁使用大功率电器！</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-100 flex flex-col justify-between h-full">
+                    <div>
+                        <h3 class="text-lg font-bold text-slate-800 mb-5 flex items-center"><i class="fa-regular fa-clock text-rose-500 mr-2"></i> 门禁 & 查寝作息</h3>
+                        <div class="space-y-3 mb-6">
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-100 flex justify-between items-center shadow-sm">
+                                <span class="text-slate-700 font-bold text-sm">周日 — 周四</span>
+                                <span class="text-rose-500 font-black text-sm tracking-wide">女 22:00 / 男 22:30</span>
+                            </div>
+                            <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-100 flex justify-between items-center shadow-sm">
+                                <span class="text-slate-700 font-bold text-sm">周五、六 & 节假日</span>
+                                <span class="text-rose-500 font-black text-sm tracking-wide">女 23:30 / 男 23:00</span>
+                            </div>
+                        </div>
+                        <div class="text-sm text-slate-600 space-y-3">
+                            <p class="flex items-start"><i class="fa-solid fa-user-shield text-brand mt-1 mr-2 w-4 text-center"></i>每晚定点查寝，禁止外宿，外出需线上请假。</p>
+                            <p class="flex items-start"><i class="fa-solid fa-calendar-check text-brand mt-1 mr-2 w-4 text-center"></i>节假日期间可正常申请留校外宿。</p>
+                            <p class="flex items-start"><i class="fa-solid fa-lightbulb text-brand mt-1 mr-2 w-4 text-center"></i>全天不断电，晚上不统一熄灯，走廊灯亮一整晚。</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-brand-light/40 rounded-2xl p-6 md:p-8 shadow-sm border border-brand/20 lg:col-span-2">
+                     <h3 class="text-lg font-bold text-slate-800 mb-4 flex items-center"><i class="fa-solid fa-box-open text-brand-dark mr-2"></i> 宿舍楼层配套</h3>
+                    <div class="flex flex-wrap gap-3 mb-2">
+                        <span class="bg-white text-slate-700 px-4 py-2.5 rounded-full text-[14px] font-bold shadow-sm flex items-center border border-slate-100"><i class="fa-solid fa-shirt text-brand mr-2"></i>公共洗衣机</span>
+                        <span class="bg-white text-slate-700 px-4 py-2.5 rounded-full text-[14px] font-bold shadow-sm flex items-center border border-slate-100"><i class="fa-solid fa-wind text-brand mr-2"></i>共享吹风机</span>
+                        <span class="bg-white text-slate-700 px-4 py-2.5 rounded-full text-[14px] font-bold shadow-sm flex items-center border border-slate-100"><i class="fa-solid fa-faucet-drip text-brand mr-2"></i>直饮水机</span>
+                        <span class="bg-white text-slate-700 px-4 py-2.5 rounded-full text-[14px] font-bold shadow-sm flex items-center border border-slate-100"><i class="fa-solid fa-box text-blue-500 mr-2"></i>楼下快递柜</span>
+                        <span class="bg-white text-slate-700 px-4 py-2.5 rounded-full text-[14px] font-bold shadow-sm flex items-center border border-slate-100"><i class="fa-solid fa-store text-orange-500 mr-2"></i>自动售货机</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ================= 页面 5: 食堂美食 ================= -->
+        <div id="page-food" class="page-section">
+            <h2 class="text-2xl font-bold text-slate-800 mb-8 flex items-center">
+                <i class="fa-solid fa-utensils text-rose-500 mr-3"></i> 食在升达
+            </h2>
+            <div class="relative z-20">
+                <div class="bg-gradient-to-r from-rose-50 to-orange-50 rounded-2xl p-6 sm:p-8 shadow-sm border border-rose-100 flex flex-col md:flex-row items-center md:items-start gap-6">
+                    <div class="w-16 h-16 bg-white text-rose-500 rounded-2xl flex items-center justify-center text-3xl shadow-sm shrink-0 rotate-3"><i class="fa-solid fa-shop"></i></div>
+                    <div class="text-center md:text-left">
+                        <h3 class="text-xl font-bold text-slate-800 mb-2">超大规模 满足味蕾</h3>
+                        <p class="text-slate-600 text-[15px] leading-relaxed">
+                            校内总计拥有 <span class="bg-rose-500 text-white px-2 py-0.5 rounded-md font-black mx-1">14个</span> 标准化餐厅，广泛分布在宿舍区与教学区。<br class="hidden md:block">全覆盖清真窗口、南北风味小吃、快餐、面食、麻辣烫以及各类奶茶饮品店。
+                        </p>
+                    </div>
+                </div>
+
+                <h3 class="text-lg font-bold text-slate-800 mt-10 mb-5 flex items-center"><i class="fa-solid fa-fire text-orange-500 mr-2"></i> 人气食堂大盘点</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 group relative overflow-hidden">
+                        <div class="w-12 h-12 bg-green-100 text-green-600 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-bowl-rice"></i></div>
+                        <h4 class="font-bold text-lg text-slate-800 mb-2">一餐厅</h4>
+                        <div class="inline-block bg-green-50 text-green-600 text-xs font-bold px-2 py-1 rounded mb-3 border border-green-100">性价比最高</div>
+                        <p class="text-slate-500 text-sm leading-relaxed">家常菜、大锅菜价格极其低廉，且早餐种类非常丰富，干饭人必选。</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 group relative overflow-hidden">
+                        <div class="w-12 h-12 bg-rose-100 text-rose-500 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-solid fa-pepper-hot"></i></div>
+                        <h4 class="font-bold text-lg text-slate-800 mb-2">龙湖食府</h4>
+                        <div class="inline-block bg-rose-50 text-rose-500 text-xs font-bold px-2 py-1 rounded mb-3 border border-rose-100">网红档口多</div>
+                        <p class="text-slate-500 text-sm leading-relaxed">追求口味首选！炸鸡、米线、麻辣香锅、水果捞等各类美食一应俱全。</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 group relative overflow-hidden">
+                        <div class="w-12 h-12 bg-blue-100 text-blue-500 rounded-xl flex items-center justify-center text-xl mb-4"><i class="fa-regular fa-clock"></i></div>
+                        <h4 class="font-bold text-lg text-slate-800 mb-2">楼下小餐厅</h4>
+                        <div class="inline-block bg-blue-50 text-blue-500 text-xs font-bold px-2 py-1 rounded mb-3 border border-blue-100">早八课间适用</div>
+                        <p class="text-slate-500 text-sm leading-relaxed">分布在各宿舍楼下，最大优势是出餐极快，非常适合赶早八的学生。</p>
+                    </div>
+                </div>
+
+                <div class="mt-8 bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-100">
+                    <div class="flex flex-col lg:flex-row gap-8 items-center justify-between">
+                        <div class="flex-1 space-y-5 w-full">
+                            <h3 class="text-lg font-bold text-slate-800 flex items-center"><i class="fa-solid fa-wallet text-brand mr-2"></i> 消费与支付</h3>
+                            <div class="flex flex-wrap items-center gap-3">
+                                <span class="bg-slate-50 text-slate-700 px-3 py-1.5 rounded-lg text-sm font-bold flex items-center border border-slate-100"><i class="fa-regular fa-credit-card mr-2 text-blue-500"></i>校园一卡通</span>
+                                <span class="bg-slate-50 text-slate-700 px-3 py-1.5 rounded-lg text-sm font-bold flex items-center border border-slate-100"><i class="fa-brands fa-weixin mr-2 text-green-500"></i>微信扫码</span>
+                                <span class="bg-slate-50 text-slate-700 px-3 py-1.5 rounded-lg text-sm font-bold flex items-center border border-slate-100"><i class="fa-brands fa-alipay mr-2 text-blue-400"></i>支付宝扫码</span>
+                            </div>
+                            <div class="bg-brand-light/30 border border-brand-light p-4 rounded-xl">
+                                <p class="text-slate-700 text-[15px] flex items-center">
+                                    <i class="fa-solid fa-coins text-yellow-500 mr-2 text-lg"></i>
+                                    菜品均价实惠，日均餐费仅需约 <span class="text-rose-500 font-black text-2xl mx-2">20元</span> 即可吃饱吃好！
+                                </p>
+                            </div>
+                        </div>
+                        <div class="w-full lg:w-1/3 border-t lg:border-t-0 lg:border-l border-slate-100 pt-5 lg:pt-0 lg:pl-8">
+                            <p class="text-xs text-slate-400 mb-4 font-bold uppercase tracking-wider flex items-center"><i class="fa-solid fa-store mr-1.5"></i> 校内连锁品牌</p>
+                            <div class="flex flex-wrap gap-2.5">
+                                <span class="bg-red-50 text-red-600 px-3.5 py-1.5 rounded-full text-sm font-bold border border-red-100">蜜雪冰城</span>
+                                <span class="bg-blue-50 text-blue-600 px-3.5 py-1.5 rounded-full text-sm font-bold border border-blue-100">瑞幸咖啡</span>
+                                <span class="bg-red-50 text-red-600 px-3.5 py-1.5 rounded-full text-sm font-bold border border-red-100">塔斯汀</span>
+                                <span class="bg-orange-50 text-orange-600 px-3.5 py-1.5 rounded-full text-sm font-bold border border-orange-100">幸运咖</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="bg-white border-t border-slate-200 py-8 mt-auto relative z-10">
+        <div class="max-w-6xl mx-auto px-4 text-center text-slate-500 text-sm">
+            <p>© 2026 郑州升达经贸管理学院 新生指南</p>
+        </div>
+    </footer>
+
+    <!-- ================= 新生必加 弹窗层 ================= -->
+    <div id="welcome-modal" class="fixed inset-0 z-[10000] flex flex-col items-center justify-center bg-black/70 px-5 hidden opacity-0 transition-opacity duration-300 ease-out">
+        <div class="bg-white rounded-[24px] w-full max-w-sm pt-8 pb-6 px-6 transform scale-95 opacity-0 transition-all duration-300 ease-out shadow-2xl relative z-[10001]" id="modal-content">
+            <div class="text-center mb-6">
+                <h2 class="text-[22px] font-black text-black mb-3 tracking-wide">新生必加(子恒学长)</h2>
+                <div class="inline-flex items-center justify-center bg-blue-50 text-blue-500 text-xs font-bold px-4 py-1.5 rounded-full">新生指南最新公告</div>
+            </div>
+            <ul class="space-y-3.5 text-slate-600 text-[15px] font-medium mb-6">
+                <li class="flex items-start"><span class="mr-2 text-lg leading-none">🎃</span> <span class="leading-tight">新生指南最新公告</span></li>
+                <li class="flex items-start"><span class="mr-2 text-lg leading-none">👻</span> <span class="leading-tight">24级在校学长</span></li>
+                <li class="flex items-start"><span class="mr-2 text-lg leading-none">🤖</span> <span class="leading-tight">拉新生、建新生群</span></li>
+                <li class="flex items-start"><span class="mr-2 text-lg leading-none">🌋</span> <span class="leading-tight">校园答疑│提前了解大学校园生活</span></li>
+                <li class="flex items-start"><span class="mr-2 text-lg leading-none">🎅</span> <span class="leading-tight">军训攻略、入学指南、避坑踩雷</span></li>
+            </ul>
+            <div class="text-[13px] text-slate-500 font-bold mb-6 text-center border-t border-slate-100 pt-5">任何问题欢迎提问，学长学姐在线耐心答疑。</div>
+            <div class="bg-slate-50 rounded-[16px] p-4 flex justify-between items-center border border-slate-100">
+                <div>
+                    <div class="text-[11px] text-slate-400 font-medium mb-1">微信号</div>
+                    <div class="text-lg font-black text-slate-800 tracking-wider" id="modal-wechat-id">Z18137374810</div>
+                </div>
+                <button onclick="copyWechatFromModal()" class="bg-[#1e3a8a] text-white text-[13px] font-bold py-2.5 px-5 rounded-[12px] hover:bg-blue-800 transition-all active:scale-95 shadow-md relative z-[10002]">复制微信号</button>
+            </div>
+        </div>
+        <button onclick="closeModal()" class="mt-8 w-[42px] h-[42px] rounded-full border-2 border-white/90 text-white flex items-center justify-center text-lg hover:bg-white/20 hover:scale-105 transition-all active:scale-90 relative z-[10001]">✕</button>
+    </div>
+
+    <!-- ================= 全屏地图查看器 (Lightbox) ================= -->
+    <div id="map-viewer-modal" class="fixed inset-0 z-[30000] bg-black/95 hidden flex-col opacity-0 transition-opacity duration-300">
+        <!-- 顶部工具栏 -->
+        <div class="absolute top-0 left-0 right-0 p-4 flex justify-between items-center z-50 bg-gradient-to-b from-black/80 to-transparent pointer-events-none">
+            <div class="text-white/80 font-bold text-sm tracking-widest pointer-events-auto">
+                <i class="fa-solid fa-map text-brand mr-2"></i>升达校园全景图
+            </div>
+            <div class="flex gap-3 pointer-events-auto">
+                <button onclick="toggleMapZoom(event)" class="w-10 h-10 rounded-full bg-white/10 text-white hover:bg-brand transition-colors flex items-center justify-center shadow-lg backdrop-blur-md">
+                    <i class="fa-solid fa-magnifying-glass-plus text-lg" id="map-zoom-icon"></i>
+                </button>
+                <button onclick="closeMapViewer()" class="w-10 h-10 rounded-full bg-white/10 text-white hover:bg-rose-500 transition-colors flex items-center justify-center shadow-lg backdrop-blur-md">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- 内部滚动缩放区 -->
+        <div id="map-scroll-container" class="w-full h-full overflow-auto flex items-center justify-center cursor-zoom-in" onclick="toggleMapZoom(event)">
+            <img src="./map.jpg" 
+                 id="map-fullscreen-img" 
+                 onerror="this.src='https://dummyimage.com/1300x2300/e6f7f5/0f766e.png&text=%E8%AF%B7%E6%9B%BF%E6%8D%A2%E4%B8%BA%E7%9C%9F%E5%AE%9E%E5%9C%B0%E5%9B%BE'" 
+                 alt="校园全景图放大" 
+                 class="max-w-full max-h-full object-contain transition-all duration-300 transform-gpu">
+        </div>
+    </div>
+
+    <!-- 复制成功的 Toast 提示 -->
+    <div id="toast" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-black/80 text-white text-sm font-medium px-6 py-3 rounded-full opacity-0 pointer-events-none transition-opacity duration-300 z-[40000] shadow-lg flex flex-col items-center">
+        <i class="fa-solid fa-circle-check text-green-400 text-2xl mb-2"></i><span id="toast-text">已成功复制微信号</span>
+    </div>
+
+    <!-- ================= 交互逻辑 ================= -->
+    <script>
+        // 1. 页面切换逻辑
+        function switchPage(pageId) {
+            document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
+            document.getElementById('page-' + pageId).classList.add('active');
+            
+            // 桌面端导航高亮切换
+            document.querySelectorAll('.nav-btn').forEach(el => {
+                if (el.dataset.target === pageId) {
+                    el.classList.add('text-brand', 'font-semibold');
+                    el.classList.remove('text-slate-500', 'font-medium');
+                } else {
+                    el.classList.remove('text-brand', 'font-semibold');
+                    el.classList.add('text-slate-500', 'font-medium');
+                }
+            });
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // 2. 长文目录平滑跳转逻辑
+        function scrollToSec(id) {
+            const el = document.getElementById(id);
+            if(el) {
+                const y = el.getBoundingClientRect().top + window.pageYOffset - 100; 
+                window.scrollTo({top: y, behavior: 'smooth'});
+            }
+        }
+
+        // 3. 移动端菜单控制
+        document.getElementById('mobile-menu-btn').addEventListener('click', () => {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        });
+        function closeMobileMenu() { 
+            document.getElementById('mobile-menu').classList.add('hidden'); 
+        }
+
+        // 4. 新生必加弹窗逻辑
+        const modal = document.getElementById('welcome-modal');
+        const modalContent = document.getElementById('modal-content');
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                modal.classList.remove('hidden');
+                void modal.offsetWidth; 
+                modal.classList.remove('opacity-0');
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 600); 
+        });
+        function closeModal() {
+            modal.classList.add('opacity-0');
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => { modal.classList.add('hidden'); }, 300);
+        }
+
+        // ================= 5. 地图全屏放大逻辑 =================
+        const mapViewerModal = document.getElementById('map-viewer-modal');
+        const mapFullscreenImg = document.getElementById('map-fullscreen-img');
+        const mapScrollContainer = document.getElementById('map-scroll-container');
+        const mapZoomIcon = document.getElementById('map-zoom-icon');
+        let isMapZoomed = false;
+
+        function openMapViewer() {
+            mapViewerModal.classList.remove('hidden');
+            void mapViewerModal.offsetWidth;
+            mapViewerModal.classList.remove('opacity-0');
+            // 每次打开重置为自适应大小
+            isMapZoomed = false;
+            updateMapZoomState();
+            // 防止网页背景滚动
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeMapViewer() {
+            mapViewerModal.classList.add('opacity-0');
+            setTimeout(() => {
+                mapViewerModal.classList.add('hidden');
+                document.body.style.overflow = ''; // 恢复网页滚动
+            }, 300);
+        }
+
+        function toggleMapZoom(event) {
+            if(event) event.stopPropagation(); // 防止冒泡触发多次
+            isMapZoomed = !isMapZoomed;
+            updateMapZoomState();
+        }
+
+        function updateMapZoomState() {
+            if (isMapZoomed) {
+                // 【放大状态】: 移除适应屏幕的类，强制宽度为原图设定或更宽，使得容器出现滚动条
+                mapFullscreenImg.classList.remove('max-w-full', 'max-h-full', 'object-contain');
+                // 使用 min-w 强制放大，适应你的 1300x2300 大长图
+                mapFullscreenImg.classList.add('min-w-[1300px]', 'max-w-none'); 
+                
+                mapScrollContainer.classList.remove('cursor-zoom-in', 'items-center', 'justify-center');
+                mapScrollContainer.classList.add('cursor-zoom-out');
+                mapZoomIcon.classList.replace('fa-magnifying-glass-plus', 'fa-magnifying-glass-minus');
+            } else {
+                // 【适应屏幕状态】: 确保长图在屏幕内完整显示
+                mapFullscreenImg.classList.add('max-w-full', 'max-h-full', 'object-contain');
+                mapFullscreenImg.classList.remove('min-w-[1300px]', 'max-w-none');
+                
+                mapScrollContainer.classList.add('cursor-zoom-in', 'items-center', 'justify-center');
+                mapScrollContainer.classList.remove('cursor-zoom-out');
+                mapZoomIcon.classList.replace('fa-magnifying-glass-minus', 'fa-magnifying-glass-plus');
+            }
+        }
+
+        // 6. 复制文本及 Toast 提示逻辑
+        const toast = document.getElementById('toast');
+        const toastText = document.getElementById('toast-text');
+        let toastTimeout;
+        
+        function executeCopy(textToCopy) {
+            const textArea = document.createElement("textarea");
+            textArea.value = textToCopy;
+            textArea.setAttribute('readonly', '');
+            textArea.style.position = 'absolute';
+            textArea.style.left = '-9999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            textArea.setSelectionRange(0, 99999); 
+            try {
+                document.execCommand('copy');
+                showToast('已成功复制微信：' + textToCopy);
+            } catch (err) {
+                showToast('复制失败，请手动长按复制');
+            }
+            document.body.removeChild(textArea);
+        }
+        
+        function copyWechatFromHeader() { executeCopy(document.getElementById('header-wechat-id').innerText); }
+        function copyWechatFromModal() { executeCopy(document.getElementById('modal-wechat-id').innerText); }
+        
+        function showToast(message) {
+            toastText.innerText = message;
+            toast.classList.remove('opacity-0');
+            clearTimeout(toastTimeout);
+            toastTimeout = setTimeout(() => { toast.classList.add('opacity-0'); }, 2500);
+        }
+    </script>
+</body>
+</html>
